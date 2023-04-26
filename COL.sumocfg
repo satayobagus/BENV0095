@@ -1,0 +1,12 @@
+<configuration>
+
+<input>
+<net-file value="COL.net.xml"/>
+<route-files value="d_file.odtrips_009.rou.xml"/>
+</input>
+<time>
+<begin value="0"/>
+<end value="3600"/>
+</time>
+
+</configuration>

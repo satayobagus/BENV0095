@@ -1,0 +1,283 @@
+---
+title: "transport"
+output: html_document
+date: "2023-04-24"
+---
+
+## Library
+```
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(xmlconvert)
+```
+
+##UK and London Emissions
+uk_2020 <- read.csv("C:/Users/Lenovo/Documents/Bismillah/uk-local-authority-ghg-emissions-2020-dataset.csv") %>%
+  filter(Calendar.Year == 2020)
+
+names(uk_2020) <- gsub(x = names(uk_2020),pattern = "\\.",replacement = "_")
+
+uk_2020%>%
+  #filter(Region == "London")%>%
+  group_by(LA_GHG_Sector) %>%
+  summarise(territorial_emissions = sum(Territorial_emissions__kt_CO2e_)/1000) %>%
+  ggplot()+
+  geom_col(aes(x=territorial_emissions, y=forcats::fct_reorder(LA_GHG_Sector, territorial_emissions), fill=LA_GHG_Sector))+
+  geom_text(aes(x=territorial_emissions, y=LA_GHG_Sector, 
+  label = paste0(round(territorial_emissions,2)," (",round(territorial_emissions*100/sum(territorial_emissions),2),"%)")),
+  hjust = -0.1, size = 6)+
+  scale_x_continuous(expand = c(.3,0))+
+  theme(legend.position = "none",
+        plot.title = element_text(size=18,face="bold"),
+        axis.text=element_text(size=18),
+        axis.title=element_text(size=18,face="bold"))+
+  labs(title = "UK GHG Emissions (2020)", x="GHG Emissions (MT CO2e)", y = "Sector", fill="Sector")
+
+## Load dataframe
+london_2021 <- read.csv("C:/Users/Lenovo/Documents/Bismillah/dft_aadfbydirection_region_id_6.csv") %>%
+filter(year == 2021) 
+
+london_flow <- london_2021 %>%
+mutate(across(pedal_cycles:all_motor_vehicles, function(x) ceiling(x/24)))
+
+##Visualization for vehicle data
+col_vis <- london_2021 %>% 
+filter(local_authority_name == "City of London") %>%
+pivot_longer(cols=colnames(london_2021[,c(20,21,22,23,24,31)]), names_to = "vehicle_type", values_to = "vehicles") 
+
+col_vis%>%
+group_by(vehicle_type) %>%
+summarise(vehicles = sum(vehicles)) %>%
+ggplot()+
+  geom_col(aes(x=forcats::fct_rev(forcats::fct_reorder(vehicle_type, vehicles)),y=vehicles, fill=vehicle_type))+
+  geom_text(aes(x=vehicle_type, y=vehicles, label = scales::comma(vehicles)), vjust = -0.5, size = 6)+
+  theme(legend.position = "none",
+        plot.title = element_text(size=18,face="bold"),
+        axis.text=element_text(size=14),
+        axis.title=element_text(size=18,face="bold"))+
+  scale_y_continuous(labels=scales::comma)+
+    labs(title = "City of London Vehicle Data, 2021", x="Vehicle Type",y="Vehicles",fill="Vehicle Type")
+
+##Distribution boxplot
+london_2021 %>% 
+filter(local_authority_name == "City of London") %>%
+pivot_longer(cols=colnames(london_2021[,c(20,21,22,23,24,31)]), names_to = "vehicle_type", values_to = "vehicles") %>%
+ggplot()+
+  geom_boxplot(aes(x=forcats::fct_rev(forcats::fct_reorder(vehicle_type, vehicles)),y=vehicles, fill=vehicle_type))+
+  stat_summary(aes(x=vehicle_type, y=vehicles), fun=mean, colour="darkred", geom="point", 
+               shape=18, size=3, show.legend=FALSE)+
+  geom_text(aes(x=vehicle_type, y=vehicles+290, label = scales::comma(ceiling(vehicles))), data=col_mean, hjust = 1.2, vjust = 0.1, size=5)+
+  scale_y_continuous(labels=scales::comma)+
+    theme(legend.position = "none",
+        plot.title = element_text(size=18,face="bold"),
+        axis.text=element_text(size=14),
+        axis.title=element_text(size=18,face="bold"))+
+    labs(title="City of London Vehicle Distribution, 2021", x="Vehicle Type",y="Vehicles",fill="Vehicle Type")
+
+##Top 10 busiest road segments
+col_vis_road <- london_2021 %>% 
+filter(local_authority_name == "City of London") %>%
+pivot_longer(cols=colnames(london_2021[,c(20,21,22,23,24,31)]), names_to = "vehicle_type", values_to = "vehicles") %>%
+mutate(start_end = paste(start_junction_road_name, "-", end_junction_road_name)) %>%
+group_by(start_end) %>%
+summarise(vehicles = sum(vehicles))
+
+slice_max(col_vis_road,col_vis_road$vehicles, n=10) %>%
+ggplot()+
+  geom_col(aes(x=forcats::fct_rev(forcats::fct_reorder(start_end, vehicles)),y=vehicles, fill=start_end))+
+  geom_hline(linetype = "dashed", linewidth = 1, yintercept=mean(col_vis_road$vehicles))+
+  annotate("text", size = 5, x=5, y=mean(col_vis_road$vehicles)+1500, label=scales::comma(ceiling(mean(col_vis_road$vehicles))))+
+  geom_text(aes(x=start_end, y=vehicles, label = scales::comma(vehicles)), vjust = -0.5, size=5)+
+  theme(legend.position = "none",
+        plot.title = element_text(size=18,face="bold"),
+        axis.text=element_text(size=14),
+        axis.title=element_text(size=18,face="bold"), 
+        axis.text.x = element_text(angle = 15, hjust = 1))+
+  scale_y_continuous(labels=scales::comma)+
+    labs(title="City of London Average Vehicle per Road, 2021", x="Road",y="Vehicles",fill="Road")
+
+
+## Assign TAZ
+COL_boundaries <- matrix(c(-0.1044, -0.092, 51.5156, 51.5214,
+                           -0.1044, -0.092, 51.5098, 51.5156,
+                           -0.092,  -0.0796, 51.5156, 51.5214,
+                           -0.092,  -0.0796, 51.5098, 51.5156), ncol=4, byrow=TRUE) 
+COL_boundaries <- as.data.frame(COL_boundaries) %>%
+mutate(zone = 1:4)
+names(COL_boundaries) <- c("xmin", "xmax", "ymin", "ymax", "zone")
+
+london_flow$taz_COL <- case_when(
+    london_flow$latitude > COL_boundaries$ymin[1] & london_flow$latitude <= COL_boundaries$ymax[1] & london_flow$longitude > COL_boundaries$xmin[1] & london_flow$longitude <= COL_boundaries$xmax[1] ~ 1,
+    london_flow$latitude > COL_boundaries$ymin[2] & london_flow$latitude <= COL_boundaries$ymax[2] & london_flow$longitude > COL_boundaries$xmin[2] & london_flow$longitude <= COL_boundaries$xmax[2] ~ 2,
+    london_flow$latitude > COL_boundaries$ymin[3] & london_flow$latitude <= COL_boundaries$ymax[3] & london_flow$longitude > COL_boundaries$xmin[3] & london_flow$longitude <= COL_boundaries$xmax[3] ~ 3,
+    london_flow$latitude > COL_boundaries$ymin[4] & london_flow$latitude <= COL_boundaries$ymax[4] & london_flow$longitude > COL_boundaries$xmin[4] & london_flow$longitude <= COL_boundaries$xmax[4] ~ 4,
+    .default = 0) 
+
+#Assume traffic flow is only made of cars travelling to inward direction (towards the assigned TAZs)
+taz_COL <- london_flow %>% 
+mutate(include = case_when((taz_COL == 1 & direction_of_travel %in% c("S","E")) | 
+                                (taz_COL == 2 & direction_of_travel %in% c("N","E")) |
+                                (taz_COL == 3 & direction_of_travel %in% c("S","W")) |
+                                (taz_COL == 4 & direction_of_travel %in% c("N","W")) ~ "Yes",
+                                .default = "No")) %>% 
+filter(include == "Yes") %>% 
+group_by(taz_COL, direction_of_travel) %>% 
+summarise(cars_and_taxis = sum(cars_and_taxis))
+
+#Assume traffic flow of each TAZ to their diagonal TAZ is made from a third of traffic flow to its orthogonal TAZs
+diagonal_COL <- taz_COL %>%
+group_by(taz_COL) %>% 
+summarise(cars_and_taxis = sum(cars_and_taxis)) %>%
+mutate(direction_of_travel = c("SE","NE","SW","NW"), cars_and_taxis = ceiling(cars_and_taxis/3))
+
+#Assume traffic flow of each TAZ to their orthogonal TAZs is made from a two-third of traffic flow to the direction of the orthogonal TAZs
+#Create OD matrix
+OD_COL <- taz_COL %>%
+mutate(cars_and_taxis = ceiling(cars_and_taxis*2/3)) %>%
+rbind(diagonal_COL) %>%
+mutate(direction_of_travel = 
+case_when(taz_COL == 1 ~ case_when(direction_of_travel == "E" ~ 3, direction_of_travel == "S" ~ 2, .default = 4), 
+taz_COL == 2 ~ case_when(direction_of_travel == "E" ~ 4, direction_of_travel == "N" ~ 1, .default = 3),
+taz_COL == 3 ~ case_when(direction_of_travel == "S" ~ 4, direction_of_travel == "W" ~ 1, .default = 2),
+taz_COL == 4 ~ case_when(direction_of_travel == "N" ~ 3, direction_of_travel == "W" ~ 2, .default = 1)
+)) %>%
+arrange(taz_COL, direction_of_travel)
+
+#25%, 50%, and 80% penetration rate OD matrixes
+OD_COL_25 <- OD_COL %>% mutate(cars_and_taxis=ceiling((1-0.5*0.25)*cars_and_taxis))
+OD_COL_50 <- OD_COL %>% mutate(cars_and_taxis=ceiling((1-0.5*0.5)*cars_and_taxis))
+OD_COL_80 <- OD_COL %>% mutate(cars_and_taxis=ceiling((1-0.5*0.8)*cars_and_taxis))
+
+#Routes
+init_route <- xml_to_df("C:/Users/Lenovo/Documents/Bismillah/005/d_file.odtrips_005.rou.xml", records.tags=c("vehicle"),fields="atrributes")
+
+route25 <- xml_to_df("C:/Users/Lenovo/Documents/Bismillah/005/d_file_25.odtrips_005.rou.xml", records.tags=c("vehicle"),fields="atrributes")
+
+route50 <- xml_to_df("C:/Users/Lenovo/Documents/Bismillah/005/d_file_50.odtrips_005.rou.xml", records.tags=c("vehicle"),fields="atrributes")
+
+route80 <- xml_to_df("C:/Users/Lenovo/Documents/Bismillah/005/d_file_80.odtrips_005.rou.xml", records.tags=c("vehicle"),fields="atrributes")
+
+#Read XML of resulting trips
+initial = xml_to_df("C:/Users/Lenovo/Documents/Bismillah/COLtrip5.xml", records.tags=c("tripinfo","emissions"),fields="atrributes")
+
+for(i in 1:nrow(initial)){
+  for(j in which(colnames(initial) == "CO_abs"):which(colnames(initial) == "electricity_abs")){
+    if(is.na(initial[i,j])==TRUE){
+      initial[i,j] <- initial[i+1,j]}
+    else{}
+}
+}
+
+initial <- initial[!(is.na(initial$id)), ]
+initial$id <- as.factor(initial$id)
+init_route$id <- as.factor(init_route$id)
+initial <- left_join(initial,select(init_route,c("id","fromTaz","toTaz")), keep=FALSE)
+
+
+col_25 = xml_to_df("C:/Users/Lenovo/Documents/Bismillah/COLtrip5_25.xml", records.tags=c("tripinfo","emissions"),fields="atrributes")
+
+for(i in 1:nrow(col_25)){
+  for(j in which(colnames(col_25) == "CO_abs"):which(colnames(col_25) == "electricity_abs")){
+    if(is.na(col_25[i,j])==TRUE){
+      col_25[i,j] <- col_25[i+1,j]}
+    else{}
+}
+}
+
+col_25 <- col_25[!(is.na(col_25$id)), ]
+col_25$id <- as.factor(col_25$id)
+route25$id <- as.factor(route25$id)
+col_25 <- left_join(col_25,select(route25,c("id","fromTaz","toTaz")), keep=FALSE)
+
+col_50 = xml_to_df("C:/Users/Lenovo/Documents/Bismillah/COLtrip5_50.xml", records.tags=c("tripinfo","emissions"),fields="atrributes")
+
+for(i in 1:nrow(col_50)){
+  for(j in which(colnames(col_50) == "CO_abs"):which(colnames(col_50) == "electricity_abs")){
+    if(is.na(col_50[i,j])==TRUE){
+      col_50[i,j] <- col_50[i+1,j]}
+    else{}
+}
+}
+
+col_50 <- col_50[!(is.na(col_50$id)), ]
+col_50$id <- as.factor(col_50$id)
+route50$id <- as.factor(route50$id)
+col_50 <- left_join(col_50,select(route50,c("id","fromTaz","toTaz")), keep=FALSE)
+
+col_80 = xml_to_df("C:/Users/Lenovo/Documents/Bismillah/COLtrip5_80.xml", records.tags=c("tripinfo","emissions"),fields="atrributes")
+
+for(i in 1:nrow(col_80)){
+  for(j in which(colnames(col_80) == "CO_abs"):which(colnames(col_80) == "electricity_abs")){
+    if(is.na(col_80[i,j])==TRUE){
+      col_80[i,j] <- col_80[i+1,j]}
+    else{}
+}
+}
+
+col_80 <- col_80[!(is.na(col_80$id)), ]
+col_80$id <- as.factor(col_80$id)
+route80$id <- as.factor(route80$id)
+col_80 <- left_join(col_80,select(route80,c("id","fromTaz","toTaz")), keep=FALSE)
+
+#Visualize
+viz_init <- initial %>% 
+mutate(speed=(routeLength/duration), scenario = "Initial") %>%
+group_by(scenario, fromTaz, toTaz) %>% 
+summarise(trips=n(fromTaz),speed_kmh=round(mean(speed)*3.6,1),waitingTime_min=round(mean(waitingTime)/60,0),timeLoss_min=round(mean(timeLoss)/60,0),CO_kg=round(sum(CO_abs)/10^6,1),CO2_kg=round(sum(CO2_abs)/10^6,1),HC_g=round(sum(HC_abs)/10^3,1),PMx_g=round(sum(PMx_abs)/10^3,1),NOx_g=round(sum(NOx_abs)/10^3,1),fuel_L=round(mean(fuel_abs)/10^3,1))
+
+viz_25 <- col_25 %>% 
+mutate(speed=(routeLength/duration), scenario = "25%") %>%
+group_by(scenario, fromTaz, toTaz) %>% 
+summarise(trips=nrow(fromTaz),speed_kmh=round(mean(speed)*3.6,1),waitingTime_min=round(mean(waitingTime)/60,0),timeLoss_min=round(mean(timeLoss)/60,0),CO_kg=round(sum(CO_abs)/10^6,1),CO2_kg=round(sum(CO2_abs)/10^6,1),HC_g=round(sum(HC_abs)/10^3,1),PMx_g=round(sum(PMx_abs)/10^3,1),NOx_g=round(sum(NOx_abs)/10^3,1),fuel_L=round(mean(fuel_abs)/10^3,1))
+
+viz_50 <- col_50 %>% 
+mutate(speed=(routeLength/duration), scenario = "50%") %>%
+group_by(scenario, fromTaz, toTaz) %>% 
+summarise(trips=nrow(fromTaz),speed_kmh=round(mean(speed)*3.6,1),waitingTime_min=round(mean(waitingTime)/60,0),timeLoss_min=round(mean(timeLoss)/60,0),CO_kg=round(sum(CO_abs)/10^6,1),CO2_kg=round(sum(CO2_abs)/10^6,1),HC_g=round(sum(HC_abs)/10^3,1),PMx_g=round(sum(PMx_abs)/10^3,1),NOx_g=round(sum(NOx_abs)/10^3,1),fuel_L=round(mean(fuel_abs)/10^3,1))
+
+viz_80 <- col_80 %>% 
+mutate(speed=(routeLength/duration), scenario = "80%") %>%
+group_by(scenario, fromTaz, toTaz) %>% 
+summarise(trips=nrow(fromTaz),speed_kmh=round(mean(speed)*3.6,1),waitingTime_min=round(mean(waitingTime)/60,0),timeLoss_min=round(mean(timeLoss)/60,0),CO_kg=round(sum(CO_abs)/10^6,1),CO2_kg=round(sum(CO2_abs)/10^6,1),HC_g=round(sum(HC_abs)/10^3,1),PMx_g=round(sum(PMx_abs)/10^3,1),NOx_g=round(sum(NOx_abs)/10^3,1),fuel_L=round(mean(fuel_abs)/10^3,1))
+
+#Summary
+summary_init <- initial %>% 
+mutate(speed=(routeLength/duration), scenario = "Initial", totalemissions_kg = CO_abs+CO2_abs+HC_abs+PMx_abs+NOx_abs) %>%
+group_by(scenario) %>% 
+summarise(speed_kmh=round(mean(speed)*3.6,1),waitingTime_min=round(mean(waitingTime)/60,0),timeLoss_min=round(mean(timeLoss)/60,0),CO_kg=round(sum(CO_abs)/10^6,1),CO2_kg=round(sum(CO2_abs)/10^6,1),HC_g=round(sum(HC_abs)/10^3,1),PMx_g=round(sum(PMx_abs)/10^3,1),NOx_g=round(sum(NOx_abs)/10^3,1),totalemmision_kg=round(sum(totalemissions_kg)/10^6,1),fuel_L=round(mean(fuel_abs)/10^3,1))
+
+summary_25 <- col_25 %>% 
+mutate(speed=(routeLength/duration), scenario = "25%", totalemissions_kg = CO_abs+CO2_abs+HC_abs+PMx_abs+NOx_abs) %>%
+group_by(scenario) %>% 
+summarise(speed_kmh=round(mean(speed)*3.6,1),waitingTime_min=round(mean(waitingTime)/60,0),timeLoss_min=round(mean(timeLoss)/60,0),CO_kg=round(sum(CO_abs)/10^6,1),CO2_kg=round(sum(CO2_abs)/10^6,1),HC_g=round(sum(HC_abs)/10^3,1),PMx_g=round(sum(PMx_abs)/10^3,1),NOx_g=round(sum(NOx_abs)/10^3,1),totalemmision_kg=round(sum(totalemissions_kg)/10^6,1),fuel_L=round(mean(fuel_abs)/10^3,1))
+
+summary_50 <- col_50 %>% 
+mutate(speed=(routeLength/duration), scenario = "50%", totalemissions_kg = CO_abs+CO2_abs+HC_abs+PMx_abs+NOx_abs) %>%
+group_by(scenario) %>% 
+summarise(speed_kmh=round(mean(speed)*3.6,1),waitingTime_min=round(mean(waitingTime)/60,0),timeLoss_min=round(mean(timeLoss)/60,0),CO_kg=round(sum(CO_abs)/10^6,1),CO2_kg=round(sum(CO2_abs)/10^6,1),HC_g=round(sum(HC_abs)/10^3,1),PMx_g=round(sum(PMx_abs)/10^3,1),NOx_g=round(sum(NOx_abs)/10^3,1),totalemmision_kg=round(sum(totalemissions_kg)/10^6,1), fuel_L=round(mean(fuel_abs)/10^3,1))
+
+summary_80 <- col_80 %>% 
+mutate(speed=(routeLength/duration), scenario = "80%", totalemissions_kg = CO_abs+CO2_abs+HC_abs+PMx_abs+NOx_abs) %>%
+group_by(scenario) %>% 
+summarise(speed_kmh=round(mean(speed)*3.6,1),waitingTime_min=round(mean(waitingTime)/60,0),timeLoss_min=round(mean(timeLoss)/60,0),CO_kg=round(sum(CO_abs)/10^6,1),CO2_kg=round(sum(CO2_abs)/10^6,1),HC_g=round(sum(HC_abs)/10^3,1),PMx_g=round(sum(PMx_abs)/10^3,1),NOx_g=round(sum(NOx_abs)/10^3,1),totalemmision_kg=round(sum(totalemissions_kg)/10^6,1),fuel_L=round(mean(fuel_abs)/10^3,1))
+
+summary_all <- union(union(union(summary_init, summary_25), summary_50), summary_80)
+summary_all$scenario = fct_relevel(summary_all$scenario, "Initial","25%","50%","80%")
+
+summary_all <- summary_all %>%
+pivot_longer(cols=colnames(summary_all[,2:11]), names_to="criteria", values_to="values") %>%
+mutate(info = case_when(grepl("kmh", criteria) | grepl("min", criteria) ~ "trip", .default = "emission")) %>%
+mutate(criteria = recode(criteria, "speed_kmh"="Speed (km/h)", "waitingTime_min" = "Waiting Time (min)", "timeLoss_min"="Time Loss (min)","CO_kg"="CO (kg)","CO2_kg"="CO2 (kg)", "HC_g"="HC (g)", "PMx_g"="PMx (g)","NOx_g"="NOx (g)", "totalemmision_kg"="Total emissions (kg)","fuel_L"="Fuel (L)"))
+
+ggplot(subset(summary_all,info == "emission"))+
+  geom_col(aes(x=scenario,y=values, fill = scenario))+
+    geom_text(aes(x=scenario, y=values, label = scales::comma(values)), size=5)+
+  theme(legend.position = "none",
+        plot.title = element_text(size=18,face="bold"),
+        axis.text=element_text(size=14),
+        axis.title=element_text(size=18,face="bold"),
+        strip.text.x = element_text(size = 14))+
+    labs(title="Emissions from Initial and Simulated Odd-Even Plate Scenario", x="Scenario",y="Values")+
+  facet_wrap(criteria ~ ., scales ="free_y")
+  
