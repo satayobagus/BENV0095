@@ -1,0 +1,52 @@
+Loading net-file from '005/../COL.net.xml' ... done (606ms).
+Warning: At actuated tlLogic 'cluster_1014803736_27459165_2935392676_3073173585_3528738438', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1014803736_27459165_2935392676_3073173585_3528738438', linkIndex 5 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1014803736_27459165_2935392676_3073173585_3528738438', linkIndex 6 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_110238_1787108647_1787108648_1787108649_1787108650', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_110238_1787108647_1787108648_1787108649_1787108650', linkIndex 3 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_110238_1787108647_1787108648_1787108649_1787108650', linkIndex 4 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 4 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 5 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 6 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 7 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 8 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 27 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 28 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 29 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 30 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 31 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 11 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 12 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 20 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 21 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 22 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 23 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 24 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_2293833763_237908_5880186827', linkIndex 14 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_2293833763_237908_5880186827', linkIndex 15 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_2293833763_237908_5880186827', linkIndex 16 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 4 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 5 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 6 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 7 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 11 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 12 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 13 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 14 has no controlling detector.
+Loading additional-files from '005/../edgedata.add.xml' ... done (8ms).
+Loading done.
+Simulation version 1.14.1 started with time: 0.00
+Simulation ended at time: 4112.00
+Reason: All vehicles have left the simulation.
+Performance: 
+ Duration: 5.37s
+ Real time factor: 766.449
+ UPS: 93006.150979
+Vehicles: 
+ Inserted: 2094
+ Running: 0
+ Waiting: 0
+

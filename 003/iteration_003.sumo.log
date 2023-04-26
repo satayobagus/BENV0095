@@ -1,0 +1,91 @@
+Loading net-file from '003/../COL.net.xml' ... done (461ms).
+Warning: At actuated tlLogic 'cluster_1014803736_27459165_2935392676_3073173585_3528738438', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1014803736_27459165_2935392676_3073173585_3528738438', linkIndex 5 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1014803736_27459165_2935392676_3073173585_3528738438', linkIndex 6 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_110238_1787108647_1787108648_1787108649_1787108650', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_110238_1787108647_1787108648_1787108649_1787108650', linkIndex 3 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_110238_1787108647_1787108648_1787108649_1787108650', linkIndex 4 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 4 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 5 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 6 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 7 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 8 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 27 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 28 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 29 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 30 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1707790067_1955520890_3972566715_4650375504_4658088539_6327615075', linkIndex 31 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 11 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 12 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 20 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 21 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 22 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 23 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_1723388979_2135411294_2135411296_2135411297_2331184930_2331184932_2331184935_25632774_3076574323_446765895_6525670236_6525670237_6525670242', linkIndex 24 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_2293833763_237908_5880186827', linkIndex 14 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_2293833763_237908_5880186827', linkIndex 15 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_2293833763_237908_5880186827', linkIndex 16 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 4 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 5 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 6 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 7 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 11 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 12 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 13 has no controlling detector.
+Warning: At actuated tlLogic 'joinedS_9', linkIndex 14 has no controlling detector.
+Loading additional-files from '003/../edgedata.add.xml' ... done (5ms).
+Loading done.
+Simulation version 1.14.1 started with time: 0.00
+Warning: Teleporting vehicle '1595'; waited too long (yield), lane='-680253230_0', time=2627.00.
+Warning: Vehicle '1595' ends teleporting on edge '680253226#0', time=2627.00.
+Warning: Teleporting vehicle '779'; waited too long (yield), lane='230190527_0', time=2629.00.
+Warning: Vehicle '779' ends teleporting on edge '680253229#0', time=2629.00.
+Warning: Teleporting vehicle '1454'; waited too long (yield), lane='-230190527_0', time=2631.00.
+Warning: Teleporting vehicle '708'; waited too long (yield), lane='680253230_0', time=2631.00.
+Warning: Vehicle '1454' ends teleporting on edge '-680253230', time=2631.00.
+Warning: Vehicle '708' ends teleporting on edge '975142223', time=2635.00.
+Warning: Teleporting vehicle '1602'; waited too long (yield), lane='-680253230_0', time=3215.00.
+Warning: Vehicle '1602' ends teleporting on edge '680253226#0', time=3215.00.
+Warning: Teleporting vehicle '548'; waited too long (yield), lane='-230190527_0', time=3217.00.
+Warning: Vehicle '548' ends teleporting on edge '680253226#1', time=3220.00.
+Warning: Teleporting vehicle '1669'; waited too long (yield), lane='-680253231#1_0', time=3230.00.
+Warning: Teleporting vehicle '1514'; waited too long (yield), lane='975142222_0', time=3231.00.
+Warning: Vehicle '1514' ends teleporting on edge '230190528#1', time=3231.00.
+Warning: Vehicle '1669' ends teleporting on edge '975142222', time=3231.00.
+Warning: Teleporting vehicle '1709'; waited too long (yield), lane='188120784#5_0', time=3378.00.
+Warning: Teleporting vehicle '1513'; waited too long (jam), lane='188120784#0_0', time=3378.00.
+Warning: Vehicle '1513' ends teleporting on edge '188120784#5', time=3378.00.
+Warning: Teleporting vehicle '636'; waited too long (yield), lane='-680253230_0', time=3533.00.
+Warning: Vehicle '636' ends teleporting on edge '-680253228', time=3535.00.
+Warning: Teleporting vehicle '680'; waited too long (jam), lane='48741698#0_0', time=3538.00.
+Warning: Teleporting vehicle '1594'; waited too long (yield), lane='-680253231#1_0', time=3543.00.
+Warning: Vehicle '1709' ends teleporting on edge '-680253231#1', time=3543.00.
+Warning: Vehicle '1594' ends teleporting on edge '975142222', time=3545.00.
+Warning: Teleporting vehicle '1909'; waited too long (jam), lane='-680253231#3_0', time=3547.00.
+Warning: Teleporting vehicle '1434'; waited too long (yield), lane='-680253231#1_0', time=3549.00.
+Warning: Vehicle '680' ends teleporting on edge '896794989', time=3553.00.
+Warning: Teleporting vehicle '223'; waited too long (yield), lane='100511754#1_0', time=3561.00.
+Warning: Vehicle '1434' ends teleporting on edge '-849610266#0', time=3566.00.
+Warning: Vehicle '1909' ends teleporting on edge '-680253231#1', time=3573.00.
+Warning: Vehicle '223' ends teleporting on edge '896794989', time=3575.00.
+Warning: Teleporting vehicle '364'; waited too long (yield), lane='102730451#2_0', time=3598.00.
+Warning: Teleporting vehicle '1970'; waited too long (jam), lane='188120784#5_0', time=3617.00.
+Warning: Vehicle '1970' ends teleporting on edge '-742184725#2', time=3617.00.
+Warning: Teleporting vehicle '426'; waited too long (yield), lane='-4223970_0', time=3691.00.
+Warning: Vehicle '364' ends teleporting on edge '-742184199#1', time=3705.00.
+Warning: Vehicle '426' ends teleporting on edge '-326329571#8', time=3737.00.
+Simulation ended at time: 4567.00
+Reason: All vehicles have left the simulation.
+Performance: 
+ Duration: 5.14s
+ Real time factor: 888.867
+ UPS: 113258.660958
+Vehicles: 
+ Inserted: 2094
+ Running: 0
+ Waiting: 0
+Teleports: 19 (Jam: 4, Yield: 15)
+
