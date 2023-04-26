@@ -1,0 +1,9 @@
+SUMO Commands
+
+netconvert --osm-files COL.osm --output-file COL.net.xml --geometry.remove --ramps.guess --junctions.join --tls.cycle.time 60 --tls.guess-signals --tls.discard-simple --tls.join --tls.default-type actuated --lefthand
+
+od2trips -c od2trips.config.xml -n taz_file.taz.xml -d OD_file.od -o d_file.odtrips.xml
+
+python sumo_scripts/duaIterate.py -n COL.net.xml -t d_file.odtrips.xml -l 6
+
+sumo -n COL.net.xml --route-files 005/d_file.odtrips_005.rou.xml --tripinfo-output COLtrip5.xml --emission-output COLemission5.xml       
